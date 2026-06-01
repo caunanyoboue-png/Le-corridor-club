@@ -1,9 +1,12 @@
 import axios from "axios";
 import { useAuthStore } from "@/lib/store";
 
-// Utilise le proxy Vite (/api → localhost:4000) pour éviter les problèmes CORS
+const baseURL = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api/v1`
+  : "/api/v1";
+
 const api = axios.create({
-  baseURL: "/api/v1",
+  baseURL,
   headers: { "Content-Type": "application/json" },
 });
 
