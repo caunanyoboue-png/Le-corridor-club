@@ -1,0 +1,67 @@
+/* ═══════════════════════════════════════════════════════════════════
+   CADENCE OCRE — Design System Tokens
+   Le Corridor Club · Maquis Manager
+   ═══════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ── Cadence Ocre Palette ── */
+  --cream:        42 54% 90%;   /* #F3EAD6 — fond principal */
+  --cream-hi:     44 60% 92%;   /* #F8F0DE — cartes / surfaces */
+  --ink:          25 42% 12%;   /* #2C1C12 — texte / primaire */
+  --ocre:         21 71% 45%;   /* #C65A21 — CTA / accent */
+  --ocre-hi:      23 65% 50%;   /* #D26C2C — hover CTA */
+  --vert:         93 34% 30%;   /* #496532 — validé / succès */
+  --amber:        37 64% 54%;   /* #D5993C — warning / stock bas */
+  --sienna:       18 65% 39%;   /* #A44C22 — bordures chaudes */
+  --muted:        25 10% 55%;   /* gris neutre — annulé / désactivé */
+
+  /* ── shadcn/ui mapping ── */
+  --background:           42 54% 90%;
+  --foreground:           25 42% 12%;
+  --card:                 44 60% 92%;
+  --card-foreground:      25 42% 12%;
+  --popover:              44 60% 92%;
+  --popover-foreground:   25 42% 12%;
+  --primary:              25 42% 12%;
+  --primary-foreground:   42 54% 90%;
+  --secondary:            93 34% 30%;
+  --secondary-foreground: 42 54% 90%;
+  --muted:                37 20% 80%;
+  --muted-foreground:     25 20% 40%;
+  --accent:               21 71% 45%;
+  --accent-foreground:    42 54% 90%;
+  --destructive:          0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border:               18 65% 39%;
+  --input:                18 30% 75%;
+  --ring:                 21 71% 45%;
+  --radius:               0.5rem;
+
+  /* ── Typographie ── */
+  --font-display: 'Crimson Pro', Georgia, serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+
+  /* ── Espacement / taille cibles tactiles ── */
+  --touch-target-min: 44px;
+  --btn-height-lg:    52px;
+  --btn-height-md:    44px;
+  --btn-height-sm:    36px;
+}
+
+/* ── Utilitaires directs ── */
+.text-ocre    { color: hsl(var(--ocre)); }
+.text-vert    { color: hsl(var(--vert)); }
+.text-amber   { color: hsl(var(--amber)); }
+.text-sienna  { color: hsl(var(--sienna)); }
+.bg-cream     { background-color: hsl(var(--cream)); }
+.bg-cream-hi  { background-color: hsl(var(--cream-hi)); }
+
+/* ── Badge statut commande ── */
+.badge-ocre   { background: hsl(var(--ocre)); color: hsl(var(--cream)); }
+.badge-amber  { background: hsl(var(--amber)); color: hsl(var(--ink)); }
+.badge-vert   { background: hsl(var(--vert)); color: hsl(var(--cream)); }
+.badge-ink    { background: hsl(var(--ink)); color: hsl(var(--cream)); }
+.badge-muted  { background: hsl(25 10% 55%); color: hsl(var(--cream)); }
