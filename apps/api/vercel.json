@@ -1,11 +1,12 @@
 {
   "version": 2,
+  "buildCommand": "cd ../.. && pnpm --filter shared build && cd apps/api && pnpm install --frozen-lockfile && pnpm run build",
   "builds": [
     {
       "src": "api/index.ts",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["src/**", "prisma/**", "dist/**"]
+        "includeFiles": ["src/**", "prisma/**", "dist/**", "../../packages/shared/dist/**"]
       }
     }
   ],
