@@ -1,57 +1,21 @@
 import "dotenv/config";
 import http from "http";
-import express from "express";
-import cors from "cors";
 import { Server as SocketServer } from "socket.io";
 import { setIo } from "./lib/io";
-
-import authRoutes from "./routes/auth";
-import productRoutes from "./routes/products";
-import orderRoutes from "./routes/orders";
-import saleRoutes from "./routes/sales";
-import stockRoutes from "./routes/stock";
-import reportRoutes from "./routes/reports";
-import adminRoutes from "./routes/admin";
 import { initSocket } from "./modules/socket";
+import app from "./app";
 
-const app = express();
+// ── Démarrage local avec Socket.io ─────────────────────────────────────
+// Note: Socket.io ne fonctionne pas sur Vercel serverless (production)
+// Cette partie est uniquement pour le développement local
 const server = http.createServer(app);
 
-// ── Socket.io ─────────────────────────────────────────────────────────
 const io = new SocketServer(server, {
   cors: { origin: process.env.CORS_ORIGIN ?? "http://localhost:5173" },
 });
 setIo(io);
 initSocket(io);
 
-// ── Middlewares globaux ────────────────────────────────────────────────
-app.use(cors({ origin: process.env.CORS_ORIGIN ?? "http://localhost:5173", credentials: true }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// ── Healthcheck ───────────────────────────────────────────────────────
-app.get("/health", (_req, res) => {
-  res.json({ status: "ok", ts: new Date().toISOString() });
-});
-
-// ── Routes API v1 ─────────────────────────────────────────────────────
-const v1 = express.Router();
-v1.use("/auth", authRoutes);
-v1.use("/products", productRoutes);
-v1.use("/orders", orderRoutes);
-v1.use("/sales", saleRoutes);
-v1.use("/stock", stockRoutes);
-v1.use("/reports", reportRoutes);
-v1.use("/admin", adminRoutes);
-
-app.use("/api/v1", v1);
-
-// ── 404 ───────────────────────────────────────────────────────────────
-app.use((_req, res) => {
-  res.status(404).json({ error: "Route introuvable" });
-});
-
-// ── Démarrage ─────────────────────────────────────────────────────────
 const PORT = Number(process.env.PORT ?? 4000);
 const corsOrigin = process.env.CORS_ORIGIN ?? "http://localhost:5173";
 server.listen(PORT, () => {
