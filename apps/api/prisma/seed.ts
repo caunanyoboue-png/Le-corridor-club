@@ -35,27 +35,29 @@ async function main() {
   const catVins      = await upsertCat("cat-vins",      "Vins & Spiritueux",       "🍷");
   const catSofts     = await upsertCat("cat-softs",     "Sucreries & Softs",       "🥤");
   const catGrillades = await upsertCat("cat-grillades", "Porc braisé",             "🐷");
-  const catPlats     = await upsertCat("cat-plats",     "Plats & Accompagnements", "🍽️");
 
-  console.log("✅ 5 catégories créées");
+  console.log("✅ 4 catégories créées");
 
-  // ── Produits ───────────────────────────────────────────────────────
+  // ── Produits (Le Corridor Club - Maquis réel) ───────────────────────────────────────────────────────
   const products = [
-    { id: "prod-castel-b", catId: catBieres.id,    name: "Castel Bière",         sale: 500,  buy: 300, unit: "bouteille" },
-    { id: "prod-flag-b",   catId: catBieres.id,    name: "Flag Spéciale",        sale: 500,  buy: 300, unit: "bouteille" },
-    { id: "prod-beaufort", catId: catBieres.id,    name: "Beaufort",             sale: 500,  buy: 280, unit: "bouteille" },
-    { id: "prod-bock",     catId: catBieres.id,    name: "Bock 65cl",            sale: 800,  buy: 500, unit: "bouteille" },
-    { id: "prod-castel-c", catId: catBieres.id,    name: "Castel Canette",       sale: 600,  buy: 380, unit: "canette" },
-    { id: "prod-vin-r",    catId: catVins.id,      name: "Vin Rouge (verre)",    sale: 700,  buy: 350, unit: "verre" },
-    { id: "prod-vin-b",    catId: catVins.id,      name: "Vin Blanc (verre)",    sale: 700,  buy: 350, unit: "verre" },
-    { id: "prod-whisky",   catId: catVins.id,      name: "Whisky (verre)",       sale: 1500, buy: 800, unit: "verre" },
-    { id: "prod-coca",     catId: catSofts.id,     name: "Coca-Cola",            sale: 400,  buy: 200, unit: "bouteille", alert: 20 },
-    { id: "prod-fanta",    catId: catSofts.id,     name: "Fanta Orange",         sale: 400,  buy: 200, unit: "bouteille", alert: 20 },
-    { id: "prod-eau",      catId: catSofts.id,     name: "Eau minérale 50cl",    sale: 300,  buy: 150, unit: "bouteille", alert: 30 },
-    { id: "prod-porc-p",   catId: catGrillades.id, name: "Porc braisé (portion)",sale: 1500, buy: 700, unit: "portion",   alert: 5  },
-    { id: "prod-porc-1k",  catId: catGrillades.id, name: "Porc braisé 1 kg",    sale: 5000, buy: 2500,unit: "kg",        alert: 2  },
-    { id: "prod-attieke",  catId: catPlats.id,     name: "Attiéké",             sale: 500,  buy: 200, unit: "portion",   alert: 5  },
-    { id: "prod-alloco",   catId: catPlats.id,     name: "Alloco",              sale: 500,  buy: 200, unit: "portion",   alert: 5  },
+    // Bières
+    { id: "prod-rhino",      catId: catBieres.id,    name: "Rhino energy 33cl",            sale: 500,  buy: 250, unit: "bouteille" },
+    { id: "prod-guinness",   catId: catBieres.id,    name: "Guinness Foreign Extra 33cl",  sale: 1000, buy: 500, unit: "bouteille" },
+    { id: "prod-doppel",     catId: catBieres.id,    name: "Doppel Munich 33cl",           sale: 500,  buy: 250, unit: "bouteille" },
+    { id: "prod-budweiser",  catId: catBieres.id,    name: "Budweiser 33cl",              sale: 800,  buy: 400, unit: "bouteille" },
+    { id: "prod-desperados", catId: catBieres.id,    name: "Desperados 330ml",            sale: 600,  buy: 300, unit: "bouteille" },
+    { id: "prod-bock",       catId: catBieres.id,    name: "Bock 65cl",                   sale: 600,  buy: 300, unit: "bouteille" },
+    { id: "prod-beaufort",   catId: catBieres.id,    name: "Beaufort lager 33cl",         sale: 600,  buy: 300, unit: "bouteille" },
+    { id: "prod-heineken",   catId: catBieres.id,    name: "Heineken 33cl",               sale: 600,  buy: 300, unit: "bouteille" },
+    { id: "prod-codys",      catId: catBieres.id,    name: "Cody's blanc bière 500ml",    sale: 600,  buy: 300, unit: "bouteille" },
+    // Softs
+    { id: "prod-malta",      catId: catSofts.id,     name: "Malta guinness 30cl",         sale: 600,  buy: 300, unit: "bouteille" },
+    { id: "prod-orangina",   catId: catSofts.id,     name: "Orangina 30cl",               sale: 500,  buy: 250, unit: "bouteille" },
+    // Vins & Spiritueux
+    { id: "prod-valpierre",  catId: catVins.id,      name: "Valpierre 50cl",              sale: 1200, buy: 600, unit: "bouteille" },
+    // Porc braisé
+    { id: "prod-porc-petit", catId: catGrillades.id, name: "Porc braisé (petit)",         sale: 4000, buy: 2000, unit: "portion", alert: 5 },
+    { id: "prod-porc-gros",  catId: catGrillades.id, name: "Porc braisé (gros)",          sale: 5000, buy: 2500, unit: "portion", alert: 5 },
   ];
 
   for (const p of products) {

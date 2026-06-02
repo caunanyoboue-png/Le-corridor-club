@@ -1,9 +1,13 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+import path from "path";
 import http from "http";
 import { Server as SocketServer } from "socket.io";
 import { setIo } from "./lib/io";
 import { initSocket } from "./modules/socket";
 import app from "./app";
+
+// Charge le .env.local depuis la racine du monorepo
+dotenv.config({ path: path.resolve(__dirname, "../../../.env.local") });
 
 // ── Démarrage local avec Socket.io ─────────────────────────────────────
 // Note: Socket.io ne fonctionne pas sur Vercel serverless (production)
