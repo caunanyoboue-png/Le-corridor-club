@@ -10,7 +10,7 @@ import stockRoutes from "./routes/stock";
 import reportRoutes from "./routes/reports";
 import adminRoutes from "./routes/admin";
 
-const app = express();
+const app: express.Application = express();
 
 // ── Middlewares globaux ────────────────────────────────────────────────
 app.use(cors({ origin: process.env.CORS_ORIGIN ?? "http://localhost:5173", credentials: true }));
