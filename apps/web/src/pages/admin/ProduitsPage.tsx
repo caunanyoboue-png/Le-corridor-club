@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Plus, Search, Eye, EyeOff, Pencil, Trash2, Loader2, X, Package } from "lucide-react";
+import { Plus, Search, Pencil, Trash2, Loader2, X, Package } from "lucide-react";
 import { formatFCFA, cn } from "@/lib/utils";
 import {
   useAdminProducts, useCategories, useCreateProduct, useUpdateProduct,
-  useToggleProductVisibility, useDeleteProduct, type Product,
+  useDeleteProduct, type Product,
 } from "@/hooks/useAdmin";
 
 const UNITS = ["bouteille", "verre", "portion", "kg", "canette", "assiette", "litre"];
@@ -323,7 +323,6 @@ function DeleteConfirm({ produit, onConfirm, onClose, loading }: {
 export default function ProduitsPage() {
   const { data: products = [], isLoading } = useAdminProducts();
   const { data: categories = [] } = useCategories();
-  const toggleVis = useToggleProductVisibility();
   const deleteProd = useDeleteProduct();
 
   const [search, setSearch] = useState("");
@@ -398,7 +397,6 @@ export default function ProduitsPage() {
       {/* Légende boutons */}
       <div className="flex items-center gap-4 text-xs text-ink/45 border-t border-sienna/10 pt-3">
         <span className="flex items-center gap-1.5"><Pencil className="w-3.5 h-3.5" /> Modifier les infos</span>
-        <span className="flex items-center gap-1.5"><EyeOff className="w-3.5 h-3.5" /> Masquer / afficher du menu client</span>
         <span className="flex items-center gap-1.5"><Trash2 className="w-3.5 h-3.5 text-red-400" /> Archiver le produit</span>
       </div>
 
@@ -476,25 +474,6 @@ export default function ProduitsPage() {
                   >
                     <Pencil className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
                     <span className="hidden sm:inline">Modifier</span>
-                  </button>
-
-                  {/* Toggle visibilité */}
-                  <button
-                    onClick={() => toggleVis.mutate({ id: p.id, visible: !p.visible })}
-                    disabled={toggleVis.isPending}
-                    title={p.visible ? "Masquer du menu client" : "Rendre visible sur le menu client"}
-                    className={cn(
-                      "p-2 sm:p-2.5 rounded-lg border transition-all shrink-0",
-                      p.visible
-                        ? "border-sienna/20 hover:bg-amber/10 hover:border-amber text-ink/50 hover:text-amber"
-                        : "border-vert/30 bg-vert/5 text-vert hover:bg-vert/10"
-                    )}
-                  >
-                    {toggleVis.isPending
-                      ? <Loader2 className="w-4 h-4 animate-spin" />
-                      : p.visible
-                        ? <EyeOff className="w-4 h-4" />
-                        : <Eye className="w-4 h-4" />}
                   </button>
 
                   {/* Supprimer */}

@@ -129,6 +129,14 @@ export function useResetPassword() {
   });
 }
 
+export function useDeleteUser() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => api.delete(`/admin/users/${id}`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin", "users"] }),
+  });
+}
+
 // ── Stats & Rapports ──────────────────────────────────────────────────
 
 export function useAdminStats() {

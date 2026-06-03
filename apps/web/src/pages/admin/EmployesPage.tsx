@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Plus, Search, User, Mail, Phone, Pencil, Power, KeyRound, Loader2, X } from "lucide-react";
+import { Plus, Search, User, Mail, Phone, Pencil, Power, KeyRound, Loader2, X, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   useAdminUsers, useCreateUser, useUpdateUser,
-  useToggleUserStatus, useResetPassword, type AdminUser,
+  useToggleUserStatus, useResetPassword, useDeleteUser, type AdminUser,
 } from "@/hooks/useAdmin";
 
 const ROLE_LABEL: Record<string, string> = { ADMIN: "Administrateur", EMPLOYEE: "Employé", CLIENT: "Client" };
@@ -183,15 +183,50 @@ function ResetPwdModal({ user, onClose }: { user: AdminUser; onClose: () => void
   );
 }
 
+// ── Modal confirmation suppression ────────────────────────────────────
+function DeleteUserConfirm({ user, onConfirm, onClose, loading }: {
+  user: AdminUser; onConfirm: () => void; onClose: () => void; loading: boolean;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/50">
+      <div className="w-full max-w-sm bg-cream rounded-2xl shadow-2xl p-6 space-y-5">
+        <div className="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center mx-auto">
+          <Trash2 className="w-7 h-7 text-red-600" />
+        </div>
+        <div className="text-center">
+          <h3 className="font-semibold text-ink text-lg">Supprimer cet employé ?</h3>
+          <p className="text-sm text-ink/60 mt-2">
+            <strong className="text-ink">{user.name}</strong> sera supprimé définitivement.
+            Cette action est irréversible.
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <button onClick={onClose} className="btn-ghost flex-1">Annuler</button>
+          <button
+            onClick={onConfirm}
+            disabled={loading}
+            className="flex-1 bg-red-600 hover:bg-red-700 active:scale-95 text-cream rounded-xl py-3 text-sm font-semibold transition-all flex items-center justify-center gap-2"
+          >
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+            Supprimer définitivement
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Page principale ───────────────────────────────────────────────────
 export default function EmployesPage() {
   const { data: users = [], isLoading } = useAdminUsers();
   const toggleStatus = useToggleUserStatus();
+  const deleteUser = useDeleteUser();
 
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editingUser, setEditingUser] = useState<AdminUser | null>(null);
   const [resetUser, setResetUser] = useState<AdminUser | null>(null);
+  const [deletingUser, setDeletingUser] = useState<AdminUser | null>(null);
 
   function openNew() { setEditingUser(null); setShowModal(true); }
   function openEdit(u: AdminUser) { setEditingUser(u); setShowModal(true); }
@@ -287,6 +322,13 @@ export default function EmployesPage() {
                   <Power className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">{u.active ? "Désactiver" : "Activer"}</span>
                 </button>
+                <button
+                  onClick={() => setDeletingUser(u)}
+                  title="Supprimer cet employé"
+                  className="p-2 sm:p-2.5 rounded-lg border border-red-200 hover:bg-red-50 hover:border-red-400 text-red-400 hover:text-red-600 transition-all shrink-0"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
               </div>
             </div>
           ))}
@@ -298,6 +340,21 @@ export default function EmployesPage() {
         <UserModal user={editingUser ?? undefined} onClose={closeModal} />
       )}
       {resetUser && <ResetPwdModal user={resetUser} onClose={() => setResetUser(null)} />}
+      {deletingUser && (
+        <DeleteUserConfirm
+          user={deletingUser}
+          onConfirm={async () => {
+            try {
+              await deleteUser.mutateAsync(deletingUser.id);
+              setDeletingUser(null);
+            } catch {
+              // Erreur gérée par la mutation
+            }
+          }}
+          onClose={() => setDeletingUser(null)}
+          loading={deleteUser.isPending}
+        />
+      )}
     </div>
   );
 }

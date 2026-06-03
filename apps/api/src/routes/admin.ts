@@ -102,6 +102,18 @@ router.patch("/users/:id/password", async (req: AuthRequest, res: Response): Pro
   res.json({ message: "Mot de passe mis à jour" });
 });
 
+// ── DELETE /admin/users/:id ──────────────────────────────────────────
+router.delete("/users/:id", async (req: AuthRequest, res: Response): Promise<void> => {
+  const user = await prisma.user.findFirst({ where: { id: req.params.id, deletedAt: null } });
+  if (!user) { res.status(404).json({ error: "Utilisateur introuvable" }); return; }
+
+  await prisma.user.update({
+    where: { id: req.params.id },
+    data: { deletedAt: new Date() },
+  });
+  res.json({ message: "Utilisateur supprimé" });
+});
+
 // ── GET /admin/stats ──────────────────────────────────────────────────
 router.get("/stats", async (_req: AuthRequest, res: Response): Promise<void> => {
   const today = new Date(); today.setHours(0, 0, 0, 0);
