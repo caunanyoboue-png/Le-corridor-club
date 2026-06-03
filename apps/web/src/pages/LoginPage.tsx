@@ -117,26 +117,6 @@ export default function LoginPage() {
           </form>
         </div>
 
-        {/* Comptes démo */}
-        <div className="mt-4 sm:mt-6 text-center text-xs text-ink/45 space-y-1.5 sm:space-y-2">
-          <p className="font-semibold text-ink/60 mb-2 sm:mb-3 text-xs sm:text-sm">Comptes de démonstration</p>
-          {[
-            { role: "Admin",   email: "admin@corridorclub.ci",   pwd: "Admin@2025!" },
-            { role: "Employé", email: "caisse1@corridorclub.ci", pwd: "Employe@2025!" },
-          ].map(({ role, email: e, pwd }) => (
-            <button
-              key={e}
-              type="button"
-              onClick={() => { setEmail(e); setPassword(pwd); setError(null); }}
-              className="block w-full text-left px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg hover:bg-cream-hi border border-sienna/10 transition-colors min-h-10 sm:min-h-11 flex flex-col sm:flex-row sm:items-center justify-center sm:justify-start"
-            >
-              <span className="font-medium text-ink/70 text-xs sm:text-sm">{role}</span>
-              <span className="hidden sm:inline text-ink/40 mx-1">·</span>
-              <span className="text-ink/40 text-xs sm:text-sm truncate">{e}</span>
-            </button>
-          ))}
-        </div>
-
         {/* Bouton reset session si bloqué */}
         <button
           type="button"
